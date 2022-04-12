@@ -1,42 +1,30 @@
 <template>
-    <div class="flex h-screen">
-        <div class="m-auto text-center items-center">
-            <p class="text">Was willst du machen?</p>
-            <jet-button @click="strava" class="button my-3 w-full bg-sky-600 hover:bg-sky-700">Strava authentication</jet-button>
-            <div>oder</div>
-            <jet-button class="button my-3 w-full bg-sky-600 hover:bg-sky-700 cursor-not-allowed">Command Creator GUI</jet-button>
+    <app-layout title="Dashboard">
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Dashboard
+            </h2>
+        </template>
+
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                    <home />
+                </div>
+            </div>
         </div>
-    </div> 
+    </app-layout>
 </template>
 
 <script>
-import JetButton from '@/Jetstream/Button.vue'
-import { defineComponent } from 'vue'
-import AppLayout from '@/Layouts/AppLayout.vue'
-import Welcome from '@/Jetstream/Welcome.vue'
+    import { defineComponent } from 'vue'
+    import AppLayout from '@/Layouts/AppLayout.vue'
+    import Home from './Home.vue'
 
-export default defineComponent({
-  components: {
-      JetButton,
-      AppLayout,
-      Welcome
-  },
-  methods: {
-            strava(){
-                window.location.href = 'https://www.strava.com/oauth/authorize?client_id=68240&response_type=code&redirect_uri=http://192.168.178.30:8000/auth/strava/callback&approval_prompt=force'
-            }
-        }
-
-});
-
+    export default defineComponent({
+        components: {
+            AppLayout,
+            Home,
+        },
+    })
 </script>
-<style>
-.button {
-  margin: 2.5%;
-  font-size: 20px;
-}
-.text{
-    font-size: 30px;
-    font-weight: bold;
-}
-</style>

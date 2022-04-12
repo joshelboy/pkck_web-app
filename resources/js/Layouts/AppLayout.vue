@@ -22,6 +22,15 @@
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
+
+                                <jet-nav-link :href="route('strava')" :active="route().current('strava')">
+                                    Strava
+                                </jet-nav-link>
+
+                                <jet-nav-link @click="strava">
+                                    Authentication
+                                </jet-nav-link>
+                                
                             </div>
                         </div>
 
@@ -275,6 +284,9 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+            strava(){
+                window.location.href = 'https://www.strava.com/oauth/authorize?client_id=68240&response_type=code&redirect_uri=http://192.168.178.30:8000/auth/strava/callback&approval_prompt=force'
+            }
         }
     })
 </script>
