@@ -26148,6 +26148,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue3_apexcharts__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue3_apexcharts__WEBPACK_IMPORTED_MODULE_2__);
 
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -26156,47 +26162,214 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    apexchart: (vue3_apexcharts__WEBPACK_IMPORTED_MODULE_2___default())
+    apexcharts: (vue3_apexcharts__WEBPACK_IMPORTED_MODULE_2___default())
   },
   data: function data() {
     return {
       chartOptions: {
         chart: {
-          id: "vuechart-example"
+          id: "strava-1y"
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: []
         }
       },
-      series: [{
-        name: "series-1",
-        data: [30, 40, 35, 50, 49, 60, 70, 91]
-      }]
+      series: []
     };
   },
+  created: function created() {
+    this.getData();
+    console.log("get");
+  },
   methods: {
-    read: function read() {
+    getData: function getData() {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var startDate, endDate, loop, newDate, idList, seriesStack, _iterator, _step, row, dataStack, tours, _iterator2, _step2, _row, dataObject, seriesObject;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                //axios.get('/sanctum/csrf-cookie').then(response => {
-                //     console.log(response);
-                //});
-                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/tours').then(function (response) {
-                  console.log(response);
-                })["catch"](function (error) {
-                  console.log(error);
-                }); //const { data } = window.axios.get('/api/tours');
-                //console.log(data);
+                _context.prev = 0;
+                startDate = new Date();
+                endDate = new Date();
+                startDate.setDate(startDate.getDate() - 83);
+                loop = new Date(startDate);
 
-              case 1:
+                while (loop <= endDate) {
+                  console.log(loop);
+                  newDate = loop.setDate(loop.getDate() + 1);
+                  loop = new Date(newDate);
+                }
+
+                _context.next = 8;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/strava_user');
+
+              case 8:
+                idList = _context.sent;
+
+                if (!(idList.status == 200)) {
+                  _context.next = 35;
+                  break;
+                }
+
+                seriesStack = [];
+                _iterator = _createForOfIteratorHelper(idList.data);
+                _context.prev = 12;
+
+                _iterator.s();
+
+              case 14:
+                if ((_step = _iterator.n()).done) {
+                  _context.next = 26;
+                  break;
+                }
+
+                row = _step.value;
+                dataStack = [];
+                _context.next = 19;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/tours/' + row.strava_id);
+
+              case 19:
+                tours = _context.sent;
+
+                if (tours.status == 200) {
+                  _iterator2 = _createForOfIteratorHelper(tours.data);
+
+                  try {
+                    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                      _row = _step2.value;
+
+                      if (_row.distance != undefined && _row.date != undefined) {
+                        dataObject = {
+                          x: _row.date,
+                          y: _row.distance
+                        };
+                        dataStack.push(dataObject);
+                      }
+                    }
+                  } catch (err) {
+                    _iterator2.e(err);
+                  } finally {
+                    _iterator2.f();
+                  }
+                }
+
+                seriesObject = {
+                  name: row.strava_name,
+                  data: dataStack
+                };
+                seriesStack.push(seriesObject);
+                console.log(seriesStack);
+                /*this.series = [{
+                  data: dataStack,
+                  name: row.strava_name
+                }]*/
+
+              case 24:
+                _context.next = 14;
+                break;
+
+              case 26:
+                _context.next = 31;
+                break;
+
+              case 28:
+                _context.prev = 28;
+                _context.t0 = _context["catch"](12);
+
+                _iterator.e(_context.t0);
+
+              case 31:
+                _context.prev = 31;
+
+                _iterator.f();
+
+                return _context.finish(31);
+
+              case 34:
+                _this.series = seriesStack;
+
+              case 35:
+                _context.next = 40;
+                break;
+
+              case 37:
+                _context.prev = 37;
+                _context.t1 = _context["catch"](0);
+                console.log(_context.t1);
+
+              case 40:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 37], [12, 28, 31, 34]]);
+      }))();
+    },
+    read: function read() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var categoriesStack, dataStack;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                categoriesStack = [];
+                dataStack = [];
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/tours').then(function (response) {
+                  if (response.status == 200) {
+                    var _iterator3 = _createForOfIteratorHelper(response.data),
+                        _step3;
+
+                    try {
+                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                        var row = _step3.value;
+
+                        if (row.distance != undefined && row.date != undefined) {
+                          categoriesStack.push(row.date);
+                          dataStack.push(row.distance);
+                        }
+
+                        console.log(dataStack);
+                      }
+                    } catch (err) {
+                      _iterator3.e(err);
+                    } finally {
+                      _iterator3.f();
+                    }
+                  } //  console.log(response);
+
+                })["catch"](function (error) {
+                  console.log(error);
+                });
+
+              case 4:
+                _this2.series = [{
+                  name: 'Elias',
+                  data: dataStack
+                }];
+                _this2.chartOptions = {
+                  xaxis: {
+                    categories: categoriesStack
+                  }
+                }; //this.$refs.exampleChart.updateOptions({ colors: '#52B12C' })
+
+                _this2.$refs.exampleChart.appendSeries({
+                  name: 'newSeries',
+                  data: [32, 44, 31, 41, 22]
+                });
+
+              case 7:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     }
   }
@@ -30442,22 +30615,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_apexchart = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("apexchart");
+  var _component_apexcharts = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("apexcharts");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_apexchart, {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_apexcharts, {
+    ref: "exampleChart",
     width: "500",
-    type: "bar",
+    height: "350",
+    type: "line",
     options: _ctx.chartOptions,
     series: _ctx.series
   }, null, 8
   /* PROPS */
-  , ["options", "series"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.read && $options.read.apply($options, arguments);
-    })
-  }, "Test")], 64
-  /* STABLE_FRAGMENT */
-  );
+  , ["options", "series"])]);
 }
 
 /***/ }),
@@ -32727,6 +32896,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+ //import VueApexCharts from "vue3-apexcharts";
 
 var appName = ((_window$document$getE = window.document.getElementsByTagName('title')[0]) === null || _window$document$getE === void 0 ? void 0 : _window$document$getE.innerText) || 'Laravel';
 (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.createInertiaApp)({
