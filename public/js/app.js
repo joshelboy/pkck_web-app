@@ -26171,7 +26171,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           id: "strava-1y"
         },
         xaxis: {
+          type: "datetime",
           categories: []
+        },
+        tooltip: {
+          x: {
+            format: "dd MMM yyyy"
+          }
         }
       },
       series: []
@@ -26186,68 +26192,98 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var startDate, endDate, loop, newDate, idList, seriesStack, _iterator, _step, row, dataStack, tours, _iterator2, _step2, _row, dataObject, seriesObject;
+        var idList, seriesStack, _iterator, _step, row, dataStack, tours, startDate, endDate, loop, dataDummy, newDate, _iterator2, _step2, _row, _iterator3, _step3, stackRow, seriesObject;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                startDate = new Date();
-                endDate = new Date();
-                startDate.setDate(startDate.getDate() - 83);
-                loop = new Date(startDate);
-
-                while (loop <= endDate) {
-                  console.log(loop);
-                  newDate = loop.setDate(loop.getDate() + 1);
-                  loop = new Date(newDate);
-                }
-
-                _context.next = 8;
+                _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/strava_user');
 
-              case 8:
+              case 3:
                 idList = _context.sent;
 
                 if (!(idList.status == 200)) {
-                  _context.next = 35;
+                  _context.next = 30;
                   break;
                 }
 
                 seriesStack = [];
                 _iterator = _createForOfIteratorHelper(idList.data);
-                _context.prev = 12;
+                _context.prev = 7;
 
                 _iterator.s();
 
-              case 14:
+              case 9:
                 if ((_step = _iterator.n()).done) {
-                  _context.next = 26;
+                  _context.next = 21;
                   break;
                 }
 
                 row = _step.value;
                 dataStack = [];
-                _context.next = 19;
+                _context.next = 14;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/tours/' + row.strava_id);
 
-              case 19:
+              case 14:
                 tours = _context.sent;
 
                 if (tours.status == 200) {
+                  startDate = new Date();
+                  endDate = new Date();
+                  startDate.setDate(startDate.getDate() - 83);
+                  loop = new Date(startDate);
+
+                  while (loop <= endDate) {
+                    dataDummy = {
+                      x: loop.toISOString().slice(0, 10),
+                      y: '0'
+                    };
+                    dataStack.push(dataDummy);
+                    newDate = loop.setDate(loop.getDate() + 1);
+                    loop = new Date(newDate);
+                  }
+
                   _iterator2 = _createForOfIteratorHelper(tours.data);
 
                   try {
                     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
                       _row = _step2.value;
 
-                      if (_row.distance != undefined && _row.date != undefined) {
-                        dataObject = {
-                          x: _row.date,
-                          y: _row.distance
-                        };
+                      /*while (new Date(row.date) < new Date(pointerDate)) {
+                        let dataObject = { x: pointerDate.toISOString().slice(0, 10), y: '0'};
                         dataStack.push(dataObject);
+                        console.log("Date")
+                        let newDate = pointerDate.setDate(pointerDate.getDate() + 1);
+                        pointerDate = new Date(newDate);
+                      }*/
+                      //console.log(row.date);
+                      //console.log(new Date(row.date));
+                      //console.log(dataStack)
+                      _iterator3 = _createForOfIteratorHelper(dataStack);
+
+                      try {
+                        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                          stackRow = _step3.value;
+
+                          if (_row.date == stackRow.x) {
+                            if (_row.distance != null && _row.distance != undefined) {
+                              stackRow.y = _row.distance;
+                              console.log("changed");
+                            }
+                          }
+                        }
+                        /*if (row.distance != undefined && row.date != undefined){
+                          let dataObject = { x: row.date, y: row.distance};
+                          dataStack.push(dataObject);
+                        }*/
+
+                      } catch (err) {
+                        _iterator3.e(err);
+                      } finally {
+                        _iterator3.f();
                       }
                     }
                   } catch (err) {
@@ -26268,45 +26304,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   name: row.strava_name
                 }]*/
 
-              case 24:
-                _context.next = 14;
+              case 19:
+                _context.next = 9;
                 break;
 
-              case 26:
-                _context.next = 31;
+              case 21:
+                _context.next = 26;
                 break;
 
-              case 28:
-                _context.prev = 28;
-                _context.t0 = _context["catch"](12);
+              case 23:
+                _context.prev = 23;
+                _context.t0 = _context["catch"](7);
 
                 _iterator.e(_context.t0);
 
-              case 31:
-                _context.prev = 31;
+              case 26:
+                _context.prev = 26;
 
                 _iterator.f();
 
-                return _context.finish(31);
+                return _context.finish(26);
 
-              case 34:
+              case 29:
                 _this.series = seriesStack;
 
-              case 35:
-                _context.next = 40;
+              case 30:
+                _context.next = 35;
                 break;
 
-              case 37:
-                _context.prev = 37;
+              case 32:
+                _context.prev = 32;
                 _context.t1 = _context["catch"](0);
                 console.log(_context.t1);
 
-              case 40:
+              case 35:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 37], [12, 28, 31, 34]]);
+        }, _callee, null, [[0, 32], [7, 23, 26, 29]]);
       }))();
     },
     read: function read() {
@@ -26323,12 +26359,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context2.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/tours').then(function (response) {
                   if (response.status == 200) {
-                    var _iterator3 = _createForOfIteratorHelper(response.data),
-                        _step3;
+                    var _iterator4 = _createForOfIteratorHelper(response.data),
+                        _step4;
 
                     try {
-                      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-                        var row = _step3.value;
+                      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                        var row = _step4.value;
 
                         if (row.distance != undefined && row.date != undefined) {
                           categoriesStack.push(row.date);
@@ -26338,9 +26374,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         console.log(dataStack);
                       }
                     } catch (err) {
-                      _iterator3.e(err);
+                      _iterator4.e(err);
                     } finally {
-                      _iterator3.f();
+                      _iterator4.f();
                     }
                   } //  console.log(response);
 
