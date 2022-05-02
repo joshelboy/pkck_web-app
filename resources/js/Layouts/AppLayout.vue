@@ -286,7 +286,7 @@
                 this.$inertia.post(route('logout'));
             },
             strava(){
-                window.location.href = 'https://www.strava.com/oauth/authorize?client_id=68240&response_type=code&redirect_uri=http://pkck.de/auth/strava/callback&approval_prompt=force&scope=read_all'
+                window.location.href = 'https://www.strava.com/oauth/authorize?client_id=68240&response_type=code&redirect_uri=https://pkck.de/auth/strava/callback&approval_prompt=force&scope=activity:read_all'
             }
         }
     })
