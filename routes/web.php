@@ -26,9 +26,14 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/strava', function () {
+    return Inertia::render('Strava');
+})->name('strava');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
 
 Route::get('/auth/discord/redirect', [DiscordController::class, 'handleDiscordRedirect']);
 Route::get('/auth/discord/callback', [DiscordController::class, 'handleDiscordCallback']);

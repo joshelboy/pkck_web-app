@@ -17,7 +17,7 @@ class DiscordController extends Controller
     }
     public function handleDiscordCallback(){
         try {
-            $user = Socialite::driver('discord')->user();
+            $user = Socialite::driver('discord')->stateless()->user();
             $idExisted = User::where('oauth_id', $user->id)->where('oauth_type', 'discord')->first();
 
             if( $idExisted ){

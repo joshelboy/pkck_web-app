@@ -13,7 +13,7 @@
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <jet-application-mark class="block h-9 w-auto" />
+                                    <img src="https://www.simaxx.de/wp-content/uploads/2020/10/HU-Plakette_2022.png" class="block h-9 w-auto"/>
                                 </Link>
                             </div>
 
@@ -22,6 +22,15 @@
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
+
+                                <jet-nav-link :href="route('strava')" :active="route().current('strava')">
+                                    Strava
+                                </jet-nav-link>
+
+                                <jet-nav-link @click="strava">
+                                    Authentication
+                                </jet-nav-link>
+                                
                             </div>
                         </div>
 
@@ -79,6 +88,7 @@
                                         </div>
                                     </template>
                                 </jet-dropdown>
+                                
                             </div>
 
                             <!-- Settings Dropdown -->
@@ -275,6 +285,9 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+            strava(){
+                window.location.href = 'https://www.strava.com/oauth/authorize?client_id=68240&response_type=code&redirect_uri=https://pkck.de/auth/strava/callback&approval_prompt=force&scope=activity:read_all'
+            }
         }
     })
 </script>
