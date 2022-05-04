@@ -17,7 +17,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+Route::get('/login', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -30,10 +30,9 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/strava', function () {
     return Inertia::render('Strava');
 })->name('strava');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-
 
 Route::get('/auth/discord/redirect', [DiscordController::class, 'handleDiscordRedirect']);
 Route::get('/auth/discord/callback', [DiscordController::class, 'handleDiscordCallback']);

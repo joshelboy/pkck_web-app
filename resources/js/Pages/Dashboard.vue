@@ -9,7 +9,7 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <home />
+                    <line-chart />
                 </div>
             </div>
         </div>
@@ -19,12 +19,12 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import Home from './Home.vue'
+    import LineChart from './LineChart.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
-            Home,
+            LineChart,
         },
     })
 </script>

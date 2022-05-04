@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('strava_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('strava_id')->nullable();
             $table->string('strava_access_token')->nullable();
             $table->string('strava_refresh_token')->nullable();

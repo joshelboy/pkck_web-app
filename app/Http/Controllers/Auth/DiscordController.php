@@ -28,6 +28,7 @@ class DiscordController extends Controller
             } else {
                 $userNew = User::create([
                     'discord_name' => $user->name,
+                    'name' => $user->name,
                     'email' => $user->email,
                     'oauth_id' => $user->id,
                     'oauth_type' => 'discord',
