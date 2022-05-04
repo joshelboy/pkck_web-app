@@ -94,8 +94,8 @@ export default {
                   for (let stackRow of dataStack) {
                     if (row.date == stackRow.x) {
                       if (row.distance != null && row.distance != undefined) {
-                        stackRow.y = row.distance;
-                        console.log("changed");
+                        let km = row.distance / 1000;
+                        stackRow.y = km.toFixed(2);
                       }
                     }
                   }

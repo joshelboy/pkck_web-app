@@ -23,8 +23,9 @@ Route::middleware('auth:sanctum')->get('/tours/{id}', function ($id) {
     $tours = DB::table('strava')
             ->select('*')
             ->where('athlete',  '=', $id)
+            ->where('type', '=', 'Ride')
+            ->orWhere('type', '=', 'VirtualRide')
             ->get();
-
     return $tours;
 });
 
