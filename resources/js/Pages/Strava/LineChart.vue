@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>Touren in den letzten 12 Wochen</p>
     <apexcharts ref="exampleChart" width="500" height="350" type="line" :options="chartOptions" :series="series"></apexcharts>
   </div>
 </template>
@@ -36,7 +37,6 @@ export default {
 
   created: function() {
     this.getData();
-    console.log("get");
   },
 
   methods: {
@@ -82,7 +82,6 @@ export default {
 
               let seriesObject = { name: row.name, data: dataStack }
               seriesStack.push(seriesObject);
-              console.log(seriesStack)
 
             }
             this.series = seriesStack;

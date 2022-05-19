@@ -37,13 +37,26 @@ Route::middleware('auth:sanctum')->get('/strava_user', function () {
     return $strava_user;
 });
 
-Route::middleware('auth:sanctum')->get('/tours/gf/{id}', function () {
-    $tours = DB::table('strava')
-            ->select('count (*)')
+Route::middleware('auth:sanctum')->get('/tours/gf/{id}', function ($id) {
+    $gf = DB::table('strava')
+            ->select(DB::raw('count (*)'))
             ->where('athlete', '=', $id)
-            ->where('distance::NUMERIC', '>', '100000')
+            ->where(DB::raw('distance::NUMERIC'), '>', '100000')
             ->where('date', '>=', '01/01/2022')
             ->where('date', '<=', '31/12/2022')
+            ->get();
+    return $gf;
+});
+
+Route::middleware('auth:sanctum')->get('/tours/1y/{id}', function ($id) {
+    $tours = DB::table('strava')
+            ->select('*')
+            ->where('athlete',  '=', $id)
+            ->where('date', '>=', '01/01/2022')
+            ->where('date', '<=', '31/12/2022')
+            ->where('type', '=', 'Ride')
+            ->orWhere('type', '=', 'VirtualRide')
+            ->orderBy('date', 'ASC')
             ->get();
     return $tours;
 });

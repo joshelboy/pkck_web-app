@@ -9,7 +9,18 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <line-chart />
+                    
+                    <div class="grid grid-cols-2 content-center m-5">
+                        <div>
+                            <gran-fondo-chart />
+                        </div>
+
+                        <div>
+                            <year-stacked-chart />
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -19,12 +30,16 @@
 <script>
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
-    import LineChart from './LineChart.vue'
+    //import LineChart from './Strava/LineChart.vue'
+    import GranFondoChart from './Strava/GranFondoChart.vue'
+    import YearStackedChart from './Strava/YearStackedChart.vue'
 
     export default defineComponent({
         components: {
             AppLayout,
-            LineChart,
+            //LineChart,
+            GranFondoChart,
+            YearStackedChart
         },
     })
 </script>

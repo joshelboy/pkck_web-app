@@ -23,9 +23,9 @@
                                     Dashboard
                                 </jet-nav-link>
 
-                                <jet-nav-link :href="route('strava')" :active="route().current('strava')">
+                                <!--<jet-nav-link :href="route('strava')" :active="route().current('strava')">
                                     Strava
-                                </jet-nav-link>
+                                </jet-nav-link>-->
 
                                 <jet-nav-link @click="strava">
                                     Authentication
