@@ -42,8 +42,8 @@ Route::middleware('auth:sanctum')->get('/tours/gf/{id}', function ($id) {
             ->select(DB::raw('count (*)'))
             ->where('athlete', '=', $id)
             ->where(DB::raw('distance::NUMERIC'), '>', '100000')
-            ->where('date', '>=', '01/01/2022')
-            ->where('date', '<=', '31/12/2022')
+            ->where('date', '>=', '2022-01-01')
+            ->where('date', '<=', '2022-12-31')
             ->get();
     return $gf;
 });
