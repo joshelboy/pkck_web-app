@@ -46,7 +46,7 @@
                                     <div>{{ event.time.toISOString }}</div>
                                     <div>{{ event.date }}</div>
                                     <div>{{ event.location }}</div>
-                                    <div>{{ event.userCreated }}</div>
+                                    <div>{{ event.userName }}</div>
                                     <button @click="updateEvent(event.id)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Bearbeiten</button>
                                     <button
@@ -117,7 +117,7 @@ export default defineComponent({
                         for (var i = 0; i < eventsLength; i++) {
                             for (var j = 0; j < usersLength; j++){
                                 if (this.users[j].id == this.events[i].userCreated) {
-                                    this.events[i].userCreated = this.users[j].name;
+                                    this.events[i].userName = this.users[j].name;
                                 }
                             }
                         }

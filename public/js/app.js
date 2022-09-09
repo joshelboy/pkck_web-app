@@ -26444,7 +26444,7 @@ __webpack_require__.r(__webpack_exports__);
           for (var i = 0; i < eventsLength; i++) {
             for (var j = 0; j < usersLength; j++) {
               if (_this.users[j].id == _this.events[i].userCreated) {
-                _this.events[i].userCreated = _this.users[j].name;
+                _this.events[i].userName = _this.users[j].name;
               }
             }
           }
@@ -31540,7 +31540,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.location), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.userCreated), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.userName), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
           onClick: function onClick($event) {
