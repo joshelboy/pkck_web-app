@@ -43,7 +43,7 @@
                                 <div class="grid grid-cols-8 gap-4 my-2">
                                     <div>{{ event.id }}</div>
                                     <div>{{ event.title }}</div>
-                                    <div>{{ event.time.toISOString }}</div>
+                                    <div>{{ event.time }}</div>
                                     <div>{{ event.date }}</div>
                                     <div>{{ event.location }}</div>
                                     <div>{{ event.userName }}</div>
