@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'discord_name', 'email', 'password', 'oauth_id', 'oauth_type', 'current_team_id', 'strava_name', 'strava_id', 'strava_access_token', 'strava_refresh_token', 'strava_expires_at'
+        'discord_name', 'email', 'password', 'oauth_id', 'oauth_type', 'current_team_id', 'strava_name', 'strava_id', 'strava_access_token', 'strava_refresh_token', 'strava_expires_at', 'name'
     ];
 
     /**

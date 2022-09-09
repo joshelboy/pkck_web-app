@@ -34,8 +34,21 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/bbq/all', function () {
+    return Inertia::render('BBQ_Calendar');
+})->name('bbq_all');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/bbq/create', function () {
+    return Inertia::render('BBQ_Calendar/CreateEvent');
+})->name('bbq_create');
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/bbq/edit/{id}', function ($id) {
+    return Inertia::render('BBQ_Calendar/EditEvent', [ 'id' => $id, ] );
+})->name('bbq_edit');
+
 Route::get('/auth/discord/redirect', [DiscordController::class, 'handleDiscordRedirect']);
 Route::get('/auth/discord/callback', [DiscordController::class, 'handleDiscordCallback']);
 
 Route::get('/auth/strava/redirect', [StravaController::class, 'handleStravaRedirect']);
 Route::get('/auth/strava/callback', [StravaController::class, 'handleStravaCallback']);
+

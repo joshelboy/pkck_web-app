@@ -13,7 +13,7 @@
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('dashboard')">
-                                    <img src="logo.png" class="block h-9 w-auto"/>
+                                    <img src="/storage/logo.png" class="block h-9 w-auto"/>
                                 </Link>
                             </div>
 
@@ -23,9 +23,9 @@
                                     Dashboard
                                 </jet-nav-link>
 
-                                <!--<jet-nav-link :href="route('strava')" :active="route().current('strava')">
-                                    Strava
-                                </jet-nav-link>-->
+                                <jet-nav-link :href="route('bbq_all')" :active="route().current('bbq_all')">
+                                    BBQ Calendar
+                                </jet-nav-link>
 
                                 <jet-nav-link @click="strava">
                                     Authentication

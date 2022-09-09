@@ -16,6 +16,11 @@ export default{
         {
             path: '/about',
             component: About
+        },
+        {
+            name: 'edit',
+            path: '/edit/:id',
+            component: BBQ_Calendar/EditEvent
         }
     ]
 }

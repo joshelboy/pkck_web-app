@@ -13,7 +13,9 @@ use App\Models\User;
 class DiscordController extends Controller
 {
     public function handleDiscordRedirect(){
-        return Socialite::driver('discord')->redirect();
+        return Socialite::driver('discord')
+        ->with(['prompt' => 'none'])
+        ->redirect();
     }
     public function handleDiscordCallback(){
         try {

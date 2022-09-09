@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\InviteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,4 +61,17 @@ Route::middleware('auth:sanctum')->get('/tours/1y/{id}', function ($id) {
             ->orderBy('date', 'ASC')
             ->get();
     return $tours;
+});
+
+Route::middleware('api')->group(function () {
+    Route::resource('events', EventController::class);
+    Route::resource('invites', InviteController::class);
+});
+
+Route::middleware('auth:sanctum')->get('/users', function () {
+    $users = DB::table('users')
+             ->select('id', 'oauth_id', 'name')
+             ->orderBy('id', 'ASC')
+             ->get();
+    return $users;
 });
