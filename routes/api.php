@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->get('/tours/84d/{id}', function ($id) {
 Route::middleware('auth:sanctum')->get('/strava_user', function () {
     $strava_user = DB::table('users')
             ->select('strava_id', 'name')
+            ->whereNotNull('strava_id')
+            ->orWhere('strava_id', '<>', '')
             ->get();
 
     return $strava_user;
