@@ -22,9 +22,9 @@ class StravaController extends Controller
             $auth_user = auth()->user();
             
             //print_r($auth_strava->expiresIn);
-
+            //Expires AT = $auth_strava->accessTokenResponseBody["expires_at"]
             
-            User::where('oauth_id', $auth_user->oauth_id)->update(['name' => $auth_strava->name, 'strava_id' => $auth_strava->id, 'strava_refresh_token' => $auth_strava->refreshToken, 'strava_access_token' => $auth_strava->token, 'strava_expires_at' => $auth_strava->accessTokenResponseBody["expires_at"]]);
+            User::where('oauth_id', $auth_user->oauth_id)->update(['name' => $auth_strava->name, 'strava_id' => $auth_strava->id, 'strava_refresh_token' => $auth_strava->refreshToken, 'strava_access_token' => $auth_strava->token, 'strava_expires_at' => $auth_strava->expiresIn]);
             
             $idExisted = User::where('oauth_id', $auth_user->oauth_id)->where('oauth_type', 'strava')->first();
             
