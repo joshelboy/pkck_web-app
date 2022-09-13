@@ -10,29 +10,26 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
-                    <div class="px-20 my-10">
+                    <div class="px-20 my-10 grid grid-cols-4 gap-8">
+                    <div class="col-span-3">
 
-                        <div class="grid grid-cols-8 gap-4 my-2">
+                        <div class="grid grid-cols-6 gap-4 my-2">
                             <div class="font-bold text-2xl">Übersicht</div>
-                            <div class="text-xs my-2">[Work in Progress]</div>
-                            <div></div>
-                            <div></div>
+                            <div class="text-xs my-2"></div>
                             <div></div>
                             <div></div>
                             <div></div>
                             <jet-button @click="createEvent"
-                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center col-span-auto">
                                 Event erstellen</jet-button>
                         </div>
 
                         <div>
-                            <div class="grid grid-cols-8 gap-4 font-bold">
-                                <div>ID</div>
+                            <div class="grid grid-cols-6 gap-4 font-bold">
                                 <div>Titel</div>
-                                <div>Uhrzeit</div>
                                 <div>Datum</div>
+                                <div>Uhrzeit</div>
                                 <div>Ort</div>
-                                <div>Ersteller</div>
                             </div>
                         </div>
 
@@ -40,13 +37,11 @@
                             <hr>
 
                             <div v-if="event.userCreated == currentUser">
-                                <div class="grid grid-cols-8 gap-4 my-2">
-                                    <div>{{ event.id }}</div>
+                                <div class="grid grid-cols-6 gap-4 my-2">
                                     <div>{{ event.title }}</div>
-                                    <div>{{ event.time }}</div>
                                     <div>{{ event.date }}</div>
+                                    <div>{{ event.time }}</div>
                                     <div>{{ event.location }}</div>
-                                    <div>{{ event.userName }}</div>
                                     <button @click="updateEvent(event.id)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Bearbeiten</button>
                                     <button
@@ -56,13 +51,11 @@
                             </div>
 
                             <div v-if="event.userCreated != currentUser">
-                                <div class="grid grid-cols-8 gap-4 my-2">
-                                    <div>{{ event.id }}</div>
+                                <div class="grid grid-cols-6 gap-4 my-2">
                                     <div>{{ event.title }}</div>
-                                    <div>{{ event.time }}</div>
                                     <div>{{ event.date }}</div>
+                                    <div>{{ event.time }}</div>
                                     <div>{{ event.location }}</div>
-                                    <div>{{ event.userCreated }}</div>
                                     <button @click="viewEvent(event.id)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Details</button>
                                     <button
@@ -73,6 +66,12 @@
                         </div>
                     </div>
 
+                    <div>
+                    
+                        <Calendar color="red" :attributes="calendar_events" />
+
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,18 +83,25 @@ import { defineComponent } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import JetButton from '@/Jetstream/Button.vue'
 import JetInput from '@/Jetstream/Input.vue'
+import { Calendar } from 'v-calendar';
+import 'v-calendar/dist/style.css';
+import { AnyMap } from '@jridgewell/trace-mapping';
+
 
 export default defineComponent({
     components: {
         AppLayout,
         JetButton,
-        JetInput
+        JetInput,
+        Calendar
     },
     data() {
         return {
             events: [],
             currentUser: {},
-            users: []
+            users: [],
+            date: new Date(),
+            calendar_events: []
         }
     },
     created() {
@@ -106,15 +112,27 @@ export default defineComponent({
 
                     
                     this.events = response.data;
+                    /*
+                    for (let single_event in this.events) {
+                        let event_data = { key: 'Any', highlight: 'true', dates: single_event.date}
+                        console.log(this.single_event)
+                        this.calendar_events.push(event_data)
+                    } */
                     
                     axios.get("/api/users").then((response) => {
                         this.users = response.data;
-                        console.log(response)
 
                         var eventsLength = this.events.length;
                         var usersLength = this.users.length;
+                        
+                        //Mark current date red
+                        let event_data = { key: 'Any', highlight: { color: 'red', fillMode: 'outline' }, dates: new Date() }
+                        this.calendar_events.push(event_data)
 
                         for (var i = 0; i < eventsLength; i++) {
+                            let event_data = { key: 'Any', highlight: true, dates: this.events[i].date, popover: { label: this.events[i].title, visibility: 'hover' } }
+                            this.calendar_events.push(event_data)
+
                             for (var j = 0; j < usersLength; j++){
                                 if (this.users[j].id == this.events[i].userCreated) {
                                     this.events[i].userName = this.users[j].name;
