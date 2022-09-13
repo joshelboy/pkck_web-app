@@ -85,3 +85,4 @@ Route::middleware('auth:sanctum')->get('/status/{id}', function ($id) {
              ->get();
     return $status;
 });
+

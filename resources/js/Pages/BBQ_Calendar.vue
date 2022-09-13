@@ -29,7 +29,7 @@
                                 <div>Titel</div>
                                 <div>Datum</div>
                                 <div>Uhrzeit</div>
-                                <div>Ort</div>
+                                <div>Teilnehmer</div>
                             </div>
                         </div>
 
@@ -38,10 +38,10 @@
 
                             <div v-if="event.userCreated == currentUser">
                                 <div class="grid grid-cols-6 gap-4 my-2">
-                                    <div>{{ event.title }}</div>
-                                    <div>{{ event.date }}</div>
-                                    <div>{{ event.time }}</div>
-                                    <div>{{ event.location }}</div>
+                                    <div class="h-10 my-3">{{ event.title }}</div>
+                                    <div class="h-10 my-3">{{ event.date }}</div>
+                                    <div class="h-10 my-3">{{ event.time }}</div>
+                                    <div class="h-10 my-3">{{ event.accepted }} von {{ event.total }}</div>
                                     <button @click="updateEvent(event.id)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Bearbeiten</button>
                                     <button
@@ -55,7 +55,7 @@
                                     <div>{{ event.title }}</div>
                                     <div>{{ event.date }}</div>
                                     <div>{{ event.time }}</div>
-                                    <div>{{ event.location }}</div>
+                                    <div>{{ event.accepted }} von {{ event.total }}</div>
                                     <button @click="viewEvent(event.id)"
                                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Details</button>
                                     <button
@@ -85,7 +85,6 @@ import JetButton from '@/Jetstream/Button.vue'
 import JetInput from '@/Jetstream/Input.vue'
 import { Calendar } from 'v-calendar';
 import 'v-calendar/dist/style.css';
-import { AnyMap } from '@jridgewell/trace-mapping';
 
 
 export default defineComponent({
@@ -101,7 +100,8 @@ export default defineComponent({
             currentUser: {},
             users: [],
             date: new Date(),
-            calendar_events: []
+            calendar_events: [],
+            invites: []
         }
     },
     created() {
@@ -109,15 +109,13 @@ export default defineComponent({
             axios
                 .get('/api/events/')
                 .then(response => {
-
+                    
+                    axios.get("/api/invites").then((response) => {
+                        this.invites = response.data;
+                        console.log(this.invites)
+                    })
                     
                     this.events = response.data;
-                    /*
-                    for (let single_event in this.events) {
-                        let event_data = { key: 'Any', highlight: 'true', dates: single_event.date}
-                        console.log(this.single_event)
-                        this.calendar_events.push(event_data)
-                    } */
                     
                     axios.get("/api/users").then((response) => {
                         this.users = response.data;
@@ -130,14 +128,59 @@ export default defineComponent({
                         this.calendar_events.push(event_data)
 
                         for (var i = 0; i < eventsLength; i++) {
+
                             let event_data = { key: 'Any', highlight: true, dates: this.events[i].date, popover: { label: this.events[i].title, visibility: 'hover' } }
                             this.calendar_events.push(event_data)
 
+                            let acceptedUser = 0;
+                            let totalUser = 0;
+
+                            for (let invite in this.invites) {
+                                if (this.invites[invite].eventID == this.events[i].id) {
+                                    if (this.invites[invite].status == 'creator' || this.invites[invite].status == 'accepted') {
+                                        acceptedUser++;
+                                        totalUser++;
+                                    }
+                                    else {
+                                        totalUser++;
+                                    }
+                                }
+                            }
+
+
+                            //Teilnehmeranzahl
+                            this.events[i].accepted = acceptedUser;
+                            this.events[i].total = totalUser;
+
+                            //Zeit nach ISO
+                            let refactoredTime = new Date(this.events[i].date + " "+ this.events[i].time);
+                            
+                            refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+
+                            this.events[i].time = refactoredTime;
+
+                            //Datum nach ISO
+                            let refactoredDate = new Date(this.events[i].date)
+
+                            refactoredDate = refactoredDate.toLocaleDateString("de-DE", {
+                                    year: "numeric",
+                                    month: "numeric",
+                                    day: "numeric",
+                                });
+
+                            this.events[i].date = refactoredDate;
+
+
+                            //Creator als Klartext
                             for (var j = 0; j < usersLength; j++){
                                 if (this.users[j].id == this.events[i].userCreated) {
                                     this.events[i].userName = this.users[j].name;
                                 }
                             }
+
                         }
 
                     });
