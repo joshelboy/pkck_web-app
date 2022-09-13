@@ -46,6 +46,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/bbq/edit/{id}', function 
     return Inertia::render('BBQ_Calendar/EditEvent', [ 'id' => $id, ] );
 })->name('bbq_edit');
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/bbq/view/{id}', function ($id) {
+    return Inertia::render('BBQ_Calendar/ViewEvent', [ 'id' => $id, ] );
+})->name('bbq_view');
+
 Route::get('/auth/discord/redirect', [DiscordController::class, 'handleDiscordRedirect']);
 Route::get('/auth/discord/callback', [DiscordController::class, 'handleDiscordCallback']);
 

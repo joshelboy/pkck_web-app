@@ -10,53 +10,47 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
-                    <form @submit.prevent="updateEvent">
-                        <div class="max-w-xl mx-auto py-12 divide-y md:max-w-4xl">
-                            <h2 class="text-2xl font-bold">
-                                Event aktualisieren
-                            </h2>
+                    <div class="max-w-xl mx-auto py-12 divide-y md:max-w-4xl">
+                        <h2 class="text-2xl font-bold">
+                            Event informationen
+                        </h2>
 
-                            <div class="mt-8 max-w-md">
-                                <div class="grid grid-cols-1 gap-6">
-                                    <div></div>
+                        <div class="mt-8 max-w-md">
+                            <div class="grid grid-cols-1 gap-6">
+                                <div></div>
 
-                                    <label class="block">
-                                        <span class="text-gray-700">Titel</span>
-                                        <input type="text"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            placeholder="Grillabend" v-model="event.title" />
-                                    </label>
+                                <label class="block">
+                                    <span class="text-gray-700 text-xl font-bold">Titel</span>
+                                    <br>
+                                    <div> {{event.title}} </div>
+                                </label>
 
-                                    <label class="block">
-                                        <span class="text-gray-700">Datum</span>
-                                        <input type="date"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            data-ddg-inputtype="unknown" v-model="event.date" />
-                                    </label>
+                                <label class="block">
+                                    <span class="text-gray-700 text-xl font-bold">Datum</span>
+                                    <br>
+                                    <div> {{event.date}} </div>
+                                </label>
 
-                                    <label class="block">
-                                        <span class="text-gray-700">Uhrzeit</span>
-                                        <input type="time"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            data-ddg-inputtype="unknown" v-model="event.time" />
-                                    </label>
+                                <label class="block">
+                                    <span class="text-gray-700 text-xl font-bold">Uhrzeit</span>
+                                    <br>
+                                    <div> {{event.time}} </div>
+                                </label>
 
-                                    <label class="block">
-                                        <span class="text-gray-700">Standort</span>
-                                        <input type="text"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            placeholder="Max' Hütte" v-model="event.location" />
-                                    </label>
+                                <label class="block">
+                                    <span class="text-gray-700 text-xl font-bold">Standort</span>
+                                    <br>
+                                    <div> {{event.location}} </div>
+                                </label>
 
-                                    <!--Invites-->
+                                <!--Invites-->
 
-                                    <div class="block">
-                                        <div class="mt-2">
-                                            <span class="text-gray-700">Einladungen</span>
+                                <div class="block">
+                                    <div>
 
-                                            <div class="mt-2"></div>
+                                        <div class="text-xl font-bold">Einladungen</div>
 
-                                            <template v-for="invitedUser in status" :key="invitedUser.userID">
+                                        <template v-for="invitedUser in status" :key="invitedUser.userID">
                                             <template v-for="user in users" :key="user.id">
 
                                                 <div v-if="invitedUser.userID == user.oauth_id">
@@ -98,25 +92,22 @@
 
                                             </template>
                                         </template>
-
+                                        
                                         <span class="text-gray-700 italic mt-1">Einladungen können aktuell noch nicht
                                             nachträglich geändert werden.</span>
 
                                         <br>
                                         <br>
 
-                                            <jet-button type="submit" class="btn btn-primary" style="margin-right: 5%">
-                                                Aktualisieren</jet-button>
+                                        <jet-button class="btn btn-primary" @click="back()">
+                                            Zurück
+                                        </jet-button>
 
-                                            <button @click="back()">
-                                                Abbrechen
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,19 +156,9 @@ export default defineComponent({
             .then((res) => {
                 this.users = res.data;
             });
+
     },
     methods: {
-        updateEvent() {
-            console.log(this.event)
-            axios
-                .patch(`/api/events/${this.id}`, this.event)
-                .then(response => (
-                    console.log(response),
-                    window.location.href = '/bbq/all'
-                ))
-                .catch(err => console.log(err))
-                .finally(() => this.loading = false)
-        },
         back() {
             window.location.href = "/bbq/all";
         },

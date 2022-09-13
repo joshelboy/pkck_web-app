@@ -16,14 +16,25 @@ class InviteController extends Controller
     {
         $data = $request->all();
 
+        $eventID;
+
         foreach ($data as $key) {
             $invite = new Invite([
                 'userID' => $key['oauth_id'],
                 'eventID' => $key['eventID'],
                 'status' => 'created'
             ]);
+
+            $eventID = $key['eventID'];
             $invite->save();    
         }
+
+        $invite = new Invite([
+            'userID' => $request->user()->oauth_id,
+            'eventID' => $eventID,
+            'status' => 'creator'
+        ]);
+        $invite->save();
 
         return response()->json('Invite created!');
     }

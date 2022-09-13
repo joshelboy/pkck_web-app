@@ -63,8 +63,8 @@
                                     <div>{{ event.date }}</div>
                                     <div>{{ event.location }}</div>
                                     <div>{{ event.userCreated }}</div>
-                                    <button @click="updateEvent(event.id)"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Bearbeiten</button>
+                                    <button @click="viewEvent(event.id)"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Details</button>
                                     <button
                                         class="hover:bg-red-500 hover:text-white text-black font-bold h-10 px-5 m-2 rounded opacity-50 cursor-not-allowed text-center">Löschen</button>
                                 </div>
@@ -149,6 +149,9 @@ export default defineComponent({
         },
         updateEvent(id) {
             window.location.href = `/bbq/edit/` + id
+        },
+        viewEvent(id) {
+            window.location.href = `/bbq/view/` + id
         }
     }
 })

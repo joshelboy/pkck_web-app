@@ -77,3 +77,11 @@ Route::middleware('auth:sanctum')->get('/users', function () {
              ->get();
     return $users;
 });
+
+Route::middleware('auth:sanctum')->get('/status/{id}', function ($id) {
+    $status = DB::table('invites')
+             ->select('*')
+             ->where('eventID', '=', $id)
+             ->get();
+    return $status;
+});
