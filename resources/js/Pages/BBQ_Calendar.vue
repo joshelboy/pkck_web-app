@@ -112,7 +112,6 @@ export default defineComponent({
                     
                     axios.get("/api/invites").then((response) => {
                         this.invites = response.data;
-                        console.log(this.invites)
                     })
                     
                     this.events = response.data;

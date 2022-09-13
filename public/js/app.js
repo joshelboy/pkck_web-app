@@ -26444,7 +26444,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/events/').then(function (response) {
         axios.get("/api/invites").then(function (response) {
           _this.invites = response.data;
-          console.log(_this.invites);
         });
         _this.events = response.data;
         axios.get("/api/users").then(function (response) {
@@ -26598,20 +26597,72 @@ __webpack_require__.r(__webpack_exports__);
     addEvent: function addEvent() {
       var _this2 = this;
 
-      var passValue;
-      axios.post("/api/events", this.event).then(function (response) {
-        return passValue = _this2.checkedUsers.map(function (x) {
-          x.eventID = response.data;
-          return x;
-        }), axios.post("/api/invites", passValue).then(function (response) {
-          return window.location.href = "/bbq/all";
-        }) //(window.location.href = "/bbq/all")
-        ;
-      })["catch"](function (err) {
-        return console.log(err);
-      })["finally"](function () {
-        return _this2.loading = false;
-      });
+      if (this.checkedUsers.length > 0 && this.event.title != undefined && this.event.location != undefined && this.event.time != undefined && this.event.date != undefined) {
+        var passValue;
+        axios.post("/api/events", this.event).then(function (response) {
+          return passValue = _this2.checkedUsers.map(function (x) {
+            x.eventID = response.data;
+            return x;
+          }), axios.post("/api/invites", passValue).then(function (response) {
+            return window.location.href = "/bbq/all";
+          }) //(window.location.href = "/bbq/all")
+          ;
+        })["catch"](function (err) {
+          return console.log(err);
+        })["finally"](function () {
+          return _this2.loading = false;
+        }); //Error handling
+      } else {
+        if (this.event.title == undefined) {
+          document.getElementById("title").classList.add("border-2");
+          document.getElementById("title").classList.add("border-rose-600");
+        } else if (this.event.title != undefined) {
+          try {
+            document.getElementById("title").classList.remove("border-2");
+            document.getElementById("title").classList.remove("border-rose-600");
+          } catch (err) {}
+        }
+
+        if (this.event.date == undefined) {
+          document.getElementById("date").classList.add("border-2");
+          document.getElementById("date").classList.add("border-rose-600");
+        } else if (this.event.date != undefined) {
+          try {
+            document.getElementById("date").classList.remove("border-2");
+            document.getElementById("date").classList.remove("border-rose-600");
+          } catch (err) {}
+        }
+
+        if (this.event.time == undefined) {
+          document.getElementById("time").classList.add("border-2");
+          document.getElementById("time").classList.add("border-rose-600");
+        } else if (this.event.time != undefined) {
+          try {
+            document.getElementById("time").classList.remove("border-2");
+            document.getElementById("time").classList.remove("border-rose-600");
+          } catch (err) {}
+        }
+
+        if (this.event.location == undefined) {
+          document.getElementById("location").classList.add("border-2");
+          document.getElementById("location").classList.add("border-rose-600");
+        } else if (this.event.location != undefined) {
+          try {
+            document.getElementById("location").classList.remove("border-2");
+            document.getElementById("location").classList.remove("border-rose-600");
+          } catch (err) {}
+        }
+
+        if (this.checkedUsers.length < 1) {
+          document.getElementById("invites").classList.add("border-2");
+          document.getElementById("invites").classList.add("border-rose-600");
+        } else if (this.event.title > 0) {
+          try {
+            document.getElementById("invites").classList.remove("border-2");
+            document.getElementById("invites").classList.remove("border-rose-600");
+          } catch (err) {}
+        }
+      }
     },
     back: function back() {
       window.location.href = "/bbq/all";
@@ -31825,38 +31876,41 @@ var _hoisted_18 = {
 var _hoisted_19 = {
   "class": "mt-2"
 };
+var _hoisted_20 = {
+  id: "invites"
+};
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-gray-700"
 }, "Wer soll Eingeladen werden?", -1
 /* HOISTED */
 );
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "mt-2"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_22 = {
+var _hoisted_23 = {
   key: 0
 };
-var _hoisted_23 = {
+var _hoisted_24 = {
   "class": "inline-flex items-center"
 };
-var _hoisted_24 = ["id", "value"];
-var _hoisted_25 = {
+var _hoisted_25 = ["id", "value"];
+var _hoisted_26 = {
   "for": "user.id",
   "class": "ml-2"
 };
-var _hoisted_26 = {
+var _hoisted_27 = {
   key: 1
 };
-var _hoisted_27 = {
+var _hoisted_28 = {
   "class": "inline-flex items-center"
 };
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
   type: "checkbox",
   "class": "rounded border-gray-300 text-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50",
   disabled: "true",
@@ -31865,16 +31919,16 @@ var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_29 = {
+var _hoisted_30 = {
   "for": "user.id",
   "class": "ml-2"
 };
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Erstellen");
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Erstellen");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_button = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-button");
@@ -31893,6 +31947,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return _ctx.addEvent && _ctx.addEvent.apply(_ctx, arguments);
         }, ["prevent"]))
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        id: "title",
         type: "text",
         "class": "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
         placeholder: "Grillabend",
@@ -31902,6 +31957,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 512
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.event.title]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        id: "date",
         type: "date",
         "class": "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
         "data-ddg-inputtype": "unknown",
@@ -31911,6 +31967,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 512
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.event.date]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        id: "time",
         type: "time",
         "class": "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
         "data-ddg-inputtype": "unknown",
@@ -31920,6 +31977,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 512
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.event.time]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        id: "location",
         type: "text",
         "class": "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50",
         placeholder: "Max' Hütte",
@@ -31928,10 +31986,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         })
       }, null, 512
       /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.event.location]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Invites"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, _hoisted_21, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.users, function (user) {
+      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.event.location]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("Invites"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, _hoisted_22, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.users, function (user) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
           key: user.id
-        }, [_ctx.creator != user.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        }, [_ctx.creator != user.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
           type: "checkbox",
           "class": "rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50",
           id: user.id,
@@ -31941,16 +31999,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           })
         }, null, 8
         /* PROPS */
-        , _hoisted_24), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, _ctx.checkedUsers]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
+        , _hoisted_25), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, _ctx.checkedUsers]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
         /* TEXT */
-        )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.creator == user.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
+        )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.creator == user.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(user.name), 1
         /* TEXT */
         )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
         /* STABLE_FRAGMENT */
         );
       }), 128
       /* KEYED_FRAGMENT */
-      )), _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
+      ))]), _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_button, {
         type: "submit",
         "class": "btn btn-primary",
         style: {
@@ -31958,7 +32016,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_31];
+          return [_hoisted_32];
         }),
         _: 1
         /* STABLE */

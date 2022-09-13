@@ -22,28 +22,28 @@
 
                   <label class="block">
                     <span class="text-gray-700">Titel</span>
-                    <input type="text"
+                    <input id="title" type="text"
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                       placeholder="Grillabend" v-model="event.title" />
                   </label>
 
                   <label class="block">
                     <span class="text-gray-700">Datum</span>
-                    <input type="date"
+                    <input id="date" type="date"
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                       data-ddg-inputtype="unknown" v-model="event.date" />
                   </label>
 
                   <label class="block">
                     <span class="text-gray-700">Uhrzeit</span>
-                    <input type="time"
+                    <input id="time" type="time"
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                       data-ddg-inputtype="unknown" v-model="event.time" />
                   </label>
 
                   <label class="block">
                     <span class="text-gray-700">Standort</span>
-                    <input type="text"
+                    <input id="location" type="text"
                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                       placeholder="Max' Hütte" v-model="event.location" />
                   </label>
@@ -52,6 +52,7 @@
 
                   <div class="block">
                     <div class="mt-2">
+                      <div id="invites">
                       <span class="text-gray-700">Wer soll Eingeladen
                         werden?</span>
 
@@ -81,6 +82,8 @@
                           </label>
                         </div>
                       </template>
+
+                    </div>
 
                       <br />
 
@@ -133,6 +136,8 @@ export default defineComponent({
   },
   methods: {
     addEvent() {
+
+      if (this.checkedUsers.length > 0 && this.event.title != undefined && this.event.location != undefined && this.event.time != undefined && this.event.date != undefined){
       let passValue;
 
       axios
@@ -155,6 +160,74 @@ export default defineComponent({
         )
         .catch((err) => console.log(err))
         .finally(() => (this.loading = false));
+
+        //Error handling
+          } else {
+
+
+            if (this.event.title == undefined) {
+              document.getElementById("title").classList.add("border-2");
+              document.getElementById("title").classList.add("border-rose-600");
+            } else if (this.event.title != undefined) {
+              try {
+                document.getElementById("title").classList.remove("border-2");
+                document.getElementById("title").classList.remove("border-rose-600");
+              } catch (err) {
+
+              }
+            }
+
+            if (this.event.date == undefined) {
+              document.getElementById("date").classList.add("border-2");
+              document.getElementById("date").classList.add("border-rose-600");
+            } else if (this.event.date != undefined) {
+              try {
+                document.getElementById("date").classList.remove("border-2");
+                document.getElementById("date").classList.remove("border-rose-600");
+              } catch (err) {
+
+              }
+            }
+
+            if (this.event.time == undefined) {
+              document.getElementById("time").classList.add("border-2");
+              document.getElementById("time").classList.add("border-rose-600");
+            } else if (this.event.time != undefined) {
+              try {
+                document.getElementById("time").classList.remove("border-2");
+                document.getElementById("time").classList.remove("border-rose-600");
+              } catch (err) {
+
+              }
+            }
+
+            if (this.event.location == undefined) {
+              document.getElementById("location").classList.add("border-2");
+              document.getElementById("location").classList.add("border-rose-600");
+            } else if (this.event.location != undefined) {
+              try {
+                document.getElementById("location").classList.remove("border-2");
+                document.getElementById("location").classList.remove("border-rose-600");
+              } catch (err) {
+
+              }
+            }
+
+            
+
+            if (this.checkedUsers.length < 1) {
+              document.getElementById("invites").classList.add("border-2");
+              document.getElementById("invites").classList.add("border-rose-600");
+            } else if (this.event.title > 0) {
+              try {
+                document.getElementById("invites").classList.remove("border-2");
+                document.getElementById("invites").classList.remove("border-rose-600");
+              } catch (err) {
+
+              }
+            }
+
+          }
     },
     back() {
       window.location.href = "/bbq/all";
