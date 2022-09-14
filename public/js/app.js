@@ -26444,6 +26444,30 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/events/').then(function (response) {
         axios.get("/api/invites").then(function (response) {
           _this.invites = response.data;
+
+          for (var event in _this.events) {
+            var acceptedUser = 0;
+            var totalUser = 0;
+
+            for (var invite in _this.invites) {
+              console.log(_this.invites[invite].eventID + " = " + _this.events[event].id + " ?");
+
+              if (_this.invites[invite].eventID == _this.events[event].id) {
+                console.log("Event found");
+
+                if (_this.invites[invite].status == 'creator' || _this.invites[invite].status == 'accepted') {
+                  acceptedUser++;
+                  totalUser++;
+                } else {
+                  totalUser++;
+                }
+              }
+            } //Teilnehmeranzahl
+
+
+            _this.events[event].accepted = acceptedUser;
+            _this.events[event].total = totalUser;
+          }
         });
         _this.events = response.data;
         axios.get("/api/users").then(function (response) {
@@ -26473,40 +26497,12 @@ __webpack_require__.r(__webpack_exports__);
               }
             };
 
-            _this.calendar_events.push(_event_data);
-
-            var acceptedUser = 0;
-            var totalUser = 0;
-
-            for (var invite in _this.invites) {
-              console.log(_this.invites[invite].eventID + " = " + _this.events[i].id + " ?");
-
-              if (_this.invites[invite].eventID == _this.events[i].id) {
-                console.log("Event found");
-
-                if (_this.invites[invite].status == 'creator' || _this.invites[invite].status == 'accepted') {
-                  acceptedUser++;
-                  totalUser++;
-                } else {
-                  totalUser++;
-                }
-              }
-            } //Teilnehmeranzahl
+            _this.calendar_events.push(_event_data); //Zeit nach ISO
 
 
-            _this.events[i].accepted = acceptedUser;
-            _this.events[i].total = totalUser; //Zeit nach ISO
+            var refactoredTime = _this.events[i].time.split(":");
 
-            var refactoredTime = new Date(_this.events[i].date + " " + _this.events[i].time);
-            console.log(_this.events[i].date);
-            console.log(_this.events[i].time);
-            console.log(refactoredTime);
-            refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
-              hour: '2-digit',
-              minute: '2-digit'
-            });
-            console.log(refactoredTime);
-            _this.events[i].time = refactoredTime; //Datum nach ISO
+            _this.events[i].time = refactoredTime[0] + ":" + refactoredTime[1] + " Uhr"; //Datum nach ISO
 
             var refactoredDate = new Date(_this.events[i].date);
             refactoredDate = refactoredDate.toLocaleDateString("de-DE", {

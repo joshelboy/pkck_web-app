@@ -11,66 +11,66 @@
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
                     <div class="px-20 my-10 grid grid-cols-4 gap-8">
-                    <div class="col-span-3">
+                        <div class="col-span-3">
 
-                        <div class="grid grid-cols-6 gap-4 my-2">
-                            <div class="font-bold text-2xl">Übersicht</div>
-                            <div class="text-xs my-2"></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <jet-button @click="createEvent"
-                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center col-span-auto">
-                                Event erstellen</jet-button>
+                            <div class="grid grid-cols-6 gap-4 my-2">
+                                <div class="font-bold text-2xl">Übersicht</div>
+                                <div class="text-xs my-2"></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <jet-button @click="createEvent"
+                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center col-span-auto">
+                                    Event erstellen</jet-button>
+                            </div>
+
+                            <div>
+                                <div class="grid grid-cols-6 gap-4 font-bold">
+                                    <div>Titel</div>
+                                    <div>Datum</div>
+                                    <div>Uhrzeit</div>
+                                    <div>Teilnehmer</div>
+                                </div>
+                            </div>
+
+                            <div v-for="event in events" :key="event.id">
+                                <hr>
+
+                                <div v-if="event.userCreated == currentUser">
+                                    <div class="grid grid-cols-6 gap-4 my-2">
+                                        <div class="h-10 my-3">{{ event.title }}</div>
+                                        <div class="h-10 my-3">{{ event.date }}</div>
+                                        <div class="h-10 my-3">{{ event.time }}</div>
+                                        <div class="h-10 my-3">{{ event.accepted }} von {{ event.total }}</div>
+                                        <button @click="updateEvent(event.id)"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Bearbeiten</button>
+                                        <button
+                                            class="hover:bg-red-500 hover:text-white text-black font-bold h-10 px-5 m-2 rounded text-center"
+                                            @click="deleteEvent(event.id)">Löschen</button>
+                                    </div>
+                                </div>
+
+                                <div v-if="event.userCreated != currentUser">
+                                    <div class="grid grid-cols-6 gap-4 my-2">
+                                        <div>{{ event.title }}</div>
+                                        <div>{{ event.date }}</div>
+                                        <div>{{ event.time }}</div>
+                                        <div>{{ event.accepted }} von {{ event.total }}</div>
+                                        <button @click="viewEvent(event.id)"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Details</button>
+                                        <button
+                                            class="hover:bg-red-500 hover:text-white text-black font-bold h-10 px-5 m-2 rounded opacity-50 cursor-not-allowed text-center">Löschen</button>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
                         <div>
-                            <div class="grid grid-cols-6 gap-4 font-bold">
-                                <div>Titel</div>
-                                <div>Datum</div>
-                                <div>Uhrzeit</div>
-                                <div>Teilnehmer</div>
-                            </div>
-                        </div>
 
-                        <div v-for="event in events" :key="event.id">
-                            <hr>
-
-                            <div v-if="event.userCreated == currentUser">
-                                <div class="grid grid-cols-6 gap-4 my-2">
-                                    <div class="h-10 my-3">{{ event.title }}</div>
-                                    <div class="h-10 my-3">{{ event.date }}</div>
-                                    <div class="h-10 my-3">{{ event.time }}</div>
-                                    <div class="h-10 my-3">{{ event.accepted }} von {{ event.total }}</div>
-                                    <button @click="updateEvent(event.id)"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Bearbeiten</button>
-                                    <button
-                                        class="hover:bg-red-500 hover:text-white text-black font-bold h-10 px-5 m-2 rounded text-center"
-                                        @click="deleteEvent(event.id)">Löschen</button>
-                                </div>
-                            </div>
-
-                            <div v-if="event.userCreated != currentUser">
-                                <div class="grid grid-cols-6 gap-4 my-2">
-                                    <div>{{ event.title }}</div>
-                                    <div>{{ event.date }}</div>
-                                    <div>{{ event.time }}</div>
-                                    <div>{{ event.accepted }} von {{ event.total }}</div>
-                                    <button @click="viewEvent(event.id)"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold h-10 px-5 my-2 rounded text-center">Details</button>
-                                    <button
-                                        class="hover:bg-red-500 hover:text-white text-black font-bold h-10 px-5 m-2 rounded opacity-50 cursor-not-allowed text-center">Löschen</button>
-                                </div>
-                            </div>
+                            <Calendar color="red" :attributes="calendar_events" />
 
                         </div>
-                    </div>
-
-                    <div>
-                    
-                        <Calendar color="red" :attributes="calendar_events" />
-
-                    </div>
                     </div>
                 </div>
             </div>
@@ -109,34 +109,17 @@ export default defineComponent({
             axios
                 .get('/api/events/')
                 .then(response => {
-                    
+
                     axios.get("/api/invites").then((response) => {
                         this.invites = response.data;
-                    })
-                    
-                    this.events = response.data;
-                    
-                    axios.get("/api/users").then((response) => {
-                        this.users = response.data;
 
-                        var eventsLength = this.events.length;
-                        var usersLength = this.users.length;
-                        
-                        //Mark current date red
-                        let event_data = { key: 'Any', highlight: { color: 'red', fillMode: 'outline' }, dates: new Date() }
-                        this.calendar_events.push(event_data)
 
-                        for (var i = 0; i < eventsLength; i++) {
-
-                            let event_data = { key: 'Any', highlight: true, dates: this.events[i].date, popover: { label: this.events[i].title, visibility: 'hover' } }
-                            this.calendar_events.push(event_data)
-
+                        for (let event in this.events) {
                             let acceptedUser = 0;
                             let totalUser = 0;
-
                             for (let invite in this.invites) {
-                                console.log(this.invites[invite].eventID + " = " + this.events[i].id + " ?")
-                                if (this.invites[invite].eventID == this.events[i].id) {
+                                console.log(this.invites[invite].eventID + " = " + this.events[event].id + " ?")
+                                if (this.invites[invite].eventID == this.events[event].id) {
                                     console.log("Event found");
                                     if (this.invites[invite].status == 'creator' || this.invites[invite].status == 'accepted') {
                                         acceptedUser++;
@@ -147,41 +130,51 @@ export default defineComponent({
                                     }
                                 }
                             }
-
-
                             //Teilnehmeranzahl
-                            this.events[i].accepted = acceptedUser;
-                            this.events[i].total = totalUser;
+                            this.events[event].accepted = acceptedUser;
+                            this.events[event].total = totalUser;
+                        }
+
+
+                    })
+
+                    this.events = response.data;
+
+                    axios.get("/api/users").then((response) => {
+                        this.users = response.data;
+
+                        var eventsLength = this.events.length;
+                        var usersLength = this.users.length;
+
+                        //Mark current date red
+                        let event_data = { key: 'Any', highlight: { color: 'red', fillMode: 'outline' }, dates: new Date() }
+                        this.calendar_events.push(event_data)
+
+                        for (var i = 0; i < eventsLength; i++) {
+
+                            let event_data = { key: 'Any', highlight: true, dates: this.events[i].date, popover: { label: this.events[i].title, visibility: 'hover' } }
+                            this.calendar_events.push(event_data)
 
                             //Zeit nach ISO
-                            let refactoredTime = new Date(this.events[i].date + " "+ this.events[i].time);
 
-                            console.log(this.events[i].date);
-                            console.log(this.events[i].time);
-                            console.log(refactoredTime);
-                            
-                            refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            });
-                            
-                            console.log(refactoredTime);
-                            this.events[i].time = refactoredTime;
+                            let refactoredTime = this.events[i].time.split(":");
+                            this.events[i].time = refactoredTime[0] + ":" + refactoredTime[1] + " Uhr"
+
 
                             //Datum nach ISO
                             let refactoredDate = new Date(this.events[i].date)
 
                             refactoredDate = refactoredDate.toLocaleDateString("de-DE", {
-                                    year: "numeric",
-                                    month: "numeric",
-                                    day: "numeric",
-                                });
+                                year: "numeric",
+                                month: "numeric",
+                                day: "numeric",
+                            });
 
                             this.events[i].date = refactoredDate;
 
 
                             //Creator als Klartext
-                            for (var j = 0; j < usersLength; j++){
+                            for (var j = 0; j < usersLength; j++) {
                                 if (this.users[j].id == this.events[i].userCreated) {
                                     this.events[i].userName = this.users[j].name;
                                 }
@@ -190,7 +183,7 @@ export default defineComponent({
                         }
 
                     });
-                    
+
                 });
 
             axios.get("/api/user").then((response) => {
