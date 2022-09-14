@@ -26498,6 +26498,8 @@ __webpack_require__.r(__webpack_exports__);
             _this.events[i].total = totalUser; //Zeit nach ISO
 
             var refactoredTime = new Date(_this.events[i].date + " " + _this.events[i].time);
+            console.log(_this.events[i].date);
+            console.log(_this.events[i].time);
             console.log(refactoredTime);
             refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
               hour: '2-digit',

@@ -155,6 +155,9 @@ export default defineComponent({
 
                             //Zeit nach ISO
                             let refactoredTime = new Date(this.events[i].date + " "+ this.events[i].time);
+
+                            console.log(this.events[i].date);
+                            console.log(this.events[i].time);
                             console.log(refactoredTime);
                             
                             refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
