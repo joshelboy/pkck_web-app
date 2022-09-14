@@ -135,7 +135,9 @@ export default defineComponent({
                             let totalUser = 0;
 
                             for (let invite in this.invites) {
+                                console.log(this.invites[invite].eventID + " = " + this.events[i].id + " ?")
                                 if (this.invites[invite].eventID == this.events[i].id) {
+                                    console.log("Event found");
                                     if (this.invites[invite].status == 'creator' || this.invites[invite].status == 'accepted') {
                                         acceptedUser++;
                                         totalUser++;
@@ -153,12 +155,14 @@ export default defineComponent({
 
                             //Zeit nach ISO
                             let refactoredTime = new Date(this.events[i].date + " "+ this.events[i].time);
+                            console.log(refactoredTime);
                             
                             refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
                                 hour: '2-digit',
                                 minute: '2-digit'
                             });
-
+                            
+                            console.log(refactoredTime);
                             this.events[i].time = refactoredTime;
 
                             //Datum nach ISO

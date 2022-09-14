@@ -1229,9 +1229,6 @@ select {
 .col-span-6 {
   grid-column: span 6 / span 6;
 }
-.col-span-2 {
-  grid-column: span 2 / span 2;
-}
 .col-span-3 {
   grid-column: span 3 / span 3;
 }
@@ -1259,10 +1256,6 @@ select {
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
-}
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -1498,32 +1491,17 @@ select {
 .list-disc {
   list-style-type: disc;
 }
-.grid-flow-row-dense {
-  grid-auto-flow: row dense;
-}
 .grid-cols-6 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
-.grid-cols-8 {
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-}
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-.grid-rows-1 {
-  grid-template-rows: repeat(1, minmax(0, 1fr));
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .flex-row {
   flex-direction: row;
@@ -1819,10 +1797,6 @@ select {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
 }
-.px-10 {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-}
 .pt-6 {
   padding-top: 1.5rem;
 }
@@ -1874,9 +1848,6 @@ select {
 .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-.font-serif {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-}
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1913,9 +1884,6 @@ select {
 }
 .font-bold {
   font-weight: 700;
-}
-.font-thin {
-  font-weight: 100;
 }
 .uppercase {
   text-transform: uppercase;

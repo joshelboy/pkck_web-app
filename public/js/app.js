@@ -26479,7 +26479,11 @@ __webpack_require__.r(__webpack_exports__);
             var totalUser = 0;
 
             for (var invite in _this.invites) {
+              console.log(_this.invites[invite].eventID + " = " + _this.events[i].id + " ?");
+
               if (_this.invites[invite].eventID == _this.events[i].id) {
+                console.log("Event found");
+
                 if (_this.invites[invite].status == 'creator' || _this.invites[invite].status == 'accepted') {
                   acceptedUser++;
                   totalUser++;
@@ -26494,10 +26498,12 @@ __webpack_require__.r(__webpack_exports__);
             _this.events[i].total = totalUser; //Zeit nach ISO
 
             var refactoredTime = new Date(_this.events[i].date + " " + _this.events[i].time);
+            console.log(refactoredTime);
             refactoredTime = refactoredTime.toLocaleTimeString("de-DE", {
               hour: '2-digit',
               minute: '2-digit'
             });
+            console.log(refactoredTime);
             _this.events[i].time = refactoredTime; //Datum nach ISO
 
             var refactoredDate = new Date(_this.events[i].date);
